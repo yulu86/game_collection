@@ -46,10 +46,10 @@ enum GameState {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double marioY = stageSize;
-  double wallX = stageSize;
-  Direction direction = Direction.none;
-  GameState gameState = GameState.running;
+  double _marioY = stageSize;
+  double _wallX = stageSize;
+  Direction _direction = Direction.none;
+  GameState _gameState = GameState.running;
 
   @override
   void didChangeDependencies() {
@@ -58,9 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Timer.periodic(
       duration,
       (timer) {
-        double newMarioY = marioY;
-        Direction newDirection = direction;
-        switch (direction) {
+        double newMarioY = _marioY;
+        Direction newDirection = _direction;
+        switch (_direction) {
           case Direction.up:
             newMarioY--;
             if (newMarioY < 100) {
@@ -73,17 +73,19 @@ class _MyHomePageState extends State<MyHomePage> {
               newDirection = Direction.none;
             }
             break;
+          case Direction.none:
+            break;
         }
 
-        if (wallX < size && marioY > stageSize - wallHeight) {
+        if (_wallX < size && _marioY > stageSize - wallHeight) {
           setState(() {
-            gameState = GameState.dead;
+            _gameState = GameState.dead;
           });
         }
         setState(() {
-          wallX = (wallX - 1 + stageSize) % stageSize;
-          marioY = newMarioY;
-          direction = newDirection;
+          _wallX = (_wallX - 1 + stageSize) % stageSize;
+          _marioY = newMarioY;
+          _direction = newDirection;
         });
       },
     );
@@ -93,56 +95,126 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: gameState == GameState.running
+        body: _gameState == GameState.running
             ? GestureDetector(
                 onTap: () {
                   setState(() {
-                    direction = Direction.up;
+                    _direction = Direction.up;
                   });
                 },
-                child: Container(
-                  width: stageSize,
-                  height: stageSize,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned.fromRect(
-                        rect: Rect.fromCenter(
-                          center: Offset(size / 2, marioY - size / 2),
-                          width: size,
-                          height: size,
-                        ),
-                        child: Container(
-                          color: Colors.orange,
-                        ),
-                      ),
-                      Positioned.fromRect(
-                        rect: Rect.fromCenter(
-                          center: Offset(
-                              wallX - size / 2, stageSize - wallHeight / 2),
-                          width: size,
-                          height: wallHeight,
-                        ),
-                        child: Container(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: GameScreen(
+                  marioY: _marioY,
+                  wallX: _wallX,
                 ),
               )
-            : const Text(
-                'Game Over',
-                style: TextStyle(
-                  fontSize: 64,
-                  color: Colors.red,
-                ),
-              ),
+            : const GameOverPanel(),
+      ),
+    );
+  }
+}
+
+class GameScreen extends StatelessWidget {
+  const GameScreen({
+    Key? key,
+    required this.marioY,
+    required this.wallX,
+  }) : super(key: key);
+
+  final double marioY;
+  final double wallX;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: stageSize,
+      height: stageSize,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: Colors.black,
+        ),
+      ),
+      child: GameContent(
+        marioY: marioY,
+        wallX: wallX,
+      ),
+    );
+  }
+}
+
+class GameContent extends StatelessWidget {
+  const GameContent({
+    Key? key,
+    required this.marioY,
+    required this.wallX,
+  }) : super(key: key);
+
+  final double marioY;
+  final double wallX;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Mario(marioY: marioY),
+        Wall(wallX: wallX),
+      ],
+    );
+  }
+}
+
+class Mario extends StatelessWidget {
+  const Mario({Key? key, required this.marioY}) : super(key: key);
+
+  final double marioY;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fromRect(
+      rect: Rect.fromCenter(
+        center: Offset(size / 2, marioY - size / 2),
+        width: size,
+        height: size,
+      ),
+      child: Container(
+        color: Colors.orange,
+      ),
+    );
+  }
+}
+
+class Wall extends StatelessWidget {
+  const Wall({Key? key, required this.wallX}) : super(key: key);
+
+  final double wallX;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fromRect(
+      rect: Rect.fromCenter(
+        center: Offset(wallX - size / 2, stageSize - wallHeight / 2),
+        width: size,
+        height: wallHeight,
+      ),
+      child: Container(
+        color: Colors.black,
+      ),
+    );
+  }
+}
+
+class GameOverPanel extends StatelessWidget {
+  const GameOverPanel({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      'Game Over',
+      style: TextStyle(
+        fontSize: 64,
+        color: Colors.red,
       ),
     );
   }

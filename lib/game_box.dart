@@ -13,7 +13,9 @@ class BoxGame extends Game {
 
   @override
   void render(Canvas canvas) {
-    // TODO: implement render
+    var bgRect = Rect.fromLTWH(0, 0, screenSize.length, screenSize.length2);
+    Paint bgPaint = Paint()..color = const Color(0xff000000);
+    canvas.drawRect(bgRect, bgPaint);
   }
 
   @override

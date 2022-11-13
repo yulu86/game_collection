@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
@@ -21,4 +23,8 @@ class SpritesGame extends FlameGame {
   Future<void>? onLoad() async {
     await add(MyCrate());
   }
+
+  // 透明背景色，可以看到GameWidget背后的小组件
+  @override
+  Color backgroundColor() => const Color(0x00000000);
 }

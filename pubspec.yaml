@@ -63,15 +63,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/FreeKnight_v1/
-    - assets/FreeKnight_v1/Colour1/NoOutline/120x80_gifs/
-    - assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/
-    - assets/FreeKnight_v1/Colour1/Outline/120x80_PNGSheets/
-    - assets/FreeKnight_v1/Colour1/Outline/120x80_PNGSheets/
-    - assets/FreeKnight_v1/Colour2/NoOutline/120x80_gifs/
-    - assets/FreeKnight_v1/Colour2/NoOutline/120x80_PNGSheets/
-    - assets/FreeKnight_v1/Colour2/Outline/120x80_PNGSheets/
-    - assets/FreeKnight_v1/Colour2/Outline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/
+    - assets/images/FreeKnight_v1/Colour1/NoOutline/120x80_gifs/
+    - assets/images/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/Colour1/Outline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/Colour1/Outline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/Colour2/NoOutline/120x80_gifs/
+    - assets/images/FreeKnight_v1/Colour2/NoOutline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/Colour2/Outline/120x80_PNGSheets/
+    - assets/images/FreeKnight_v1/Colour2/Outline/120x80_PNGSheets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

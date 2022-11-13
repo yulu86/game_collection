@@ -11,6 +11,5 @@ void main() async {
   await Flame.device.setOrientation(DeviceOrientation.portraitUp);
 
   // BoxGame game = BoxGame();
-  SpritesGame game = SpritesGame();
-  runApp(GameWidget(game: game));
+  runApp(MyGameWidget());
 }
